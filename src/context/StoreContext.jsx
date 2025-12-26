@@ -370,7 +370,7 @@ export function StoreProvider({ children }) {
       })();
     }
 
-    function upsertProduct(p) {
+    async function upsertProduct(p) {
       const next = { ...(p || {}) };
       next.name = String(next.name || "").trim();
       next.category = String(next.category || "").trim().toLowerCase();
@@ -420,36 +420,36 @@ export function StoreProvider({ children }) {
           products.push({ ...next, id: newId });
           return { ...prev, products };
         });
-        return;
+        return { ok: true };
       }
 
-      (async () => {
-        try {
-          const payload = {
-            name: next.name,
-            description: next.description || "",
-            category_slug: next.category || null,
-            price: next.price,
-            featured: next.featured,
-            visible: next.visible !== false,
-            images: next.images || [],
-            sizes: next.sizes || [],
-            stock: next.stock || {},
-          };
+      try {
+        const payload = {
+          name: next.name,
+          description: next.description || "",
+          category_slug: next.category || null,
+          price: next.price,
+          featured: next.featured,
+          visible: next.visible !== false,
+          images: next.images || [],
+          sizes: next.sizes || [],
+          stock: next.stock || {},
+        };
 
-          if (next.id) {
-            const { error } = await supabase.from("products").update(payload).eq("id", next.id);
-            if (error) throw error;
-          } else {
-            const { error } = await supabase.from("products").insert(payload);
-            if (error) throw error;
-          }
-
-          await refreshFromSupabase();
-        } catch (e) {
-          console.error("upsertProduct failed", e);
+        if (next.id) {
+          const { error } = await supabase.from("products").update(payload).eq("id", next.id);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase.from("products").insert(payload);
+          if (error) throw error;
         }
-      })();
+
+        await refreshFromSupabase();
+        return { ok: true };
+      } catch (e) {
+        console.error("upsertProduct failed", e);
+        return { ok: false, error: e?.message || "Failed to save product" };
+      }
     }
 
     function deleteProduct(id) {
