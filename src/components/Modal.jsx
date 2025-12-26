@@ -28,7 +28,7 @@ export default function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center p-3 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-label={title || "Dialog"}
@@ -41,12 +41,12 @@ export default function Modal({
       />
 
       <div
-        className={`relative w-full ${widthClass} rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-xl baggo-modal-enter`}
+        className={`relative w-full ${widthClass} rounded-t-2xl sm:rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-xl baggo-modal-enter`}
       >
         <div className="p-5 border-b border-[var(--color-border)] flex items-start justify-between gap-4">
           <div className="min-w-0">
             {title ? (
-              <h3 className="text-lg font-semibold text-[var(--color-text)] truncate">{title}</h3>
+              <h3 className="text-lg font-semibold text-[var(--color-text)] leading-tight break-words">{title}</h3>
             ) : null}
           </div>
           <button

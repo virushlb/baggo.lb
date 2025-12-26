@@ -160,14 +160,7 @@ export default function ProductCard({ product }) {
         onClose={() => setSizeModalOpen(false)}
         widthClass="max-w-lg"
         footer={
-          <div className="flex items-center justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => setSizeModalOpen(false)}
-              className="rounded-full px-4 py-2 text-sm border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-2)] transition"
-            >
-              Cancel
-            </button>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
             <button
               type="button"
               onClick={() => {
@@ -207,7 +200,7 @@ export default function ProductCard({ product }) {
                 addedTimerRef.current = window.setTimeout(() => setAdded(false), 1200);
               }}
               disabled={!modalSize}
-              className="rounded-full px-4 py-2 text-sm bg-[var(--color-primary)] text-[var(--color-on-primary)] disabled:opacity-40 transition active:scale-[0.99]"
+              className="w-full sm:w-auto rounded-full px-4 py-2 text-sm bg-[var(--color-primary)] text-[var(--color-on-primary)] disabled:opacity-40 transition active:scale-[0.99]"
             >
               Add to cart
             </button>
@@ -215,10 +208,10 @@ export default function ProductCard({ product }) {
         }
       >
         <p className="text-sm text-[var(--color-text-muted)]">
-          Select a size to add <span className="font-medium text-[var(--color-text)]">{product.name}</span> to your cart.
+          Select a size for <span className="font-medium text-[var(--color-text)]">{product.name}</span>.
         </p>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 grid grid-cols-3 sm:flex sm:flex-wrap gap-2">
           {(product?.sizes || []).map((s) => {
             const disabled =
               isPerImageStock(product?.stock)
@@ -234,7 +227,7 @@ export default function ProductCard({ product }) {
                 disabled={disabled}
                 onClick={() => setModalSize(s)}
                 className={
-                  "px-4 py-2 rounded-full text-sm border transition-all active:scale-[0.98] " +
+                  "inline-flex items-center justify-center px-4 py-2 rounded-full text-sm border transition-all active:scale-[0.98] " +
                   (modalSize === s
                     ? "bg-[var(--color-primary)] text-[var(--color-on-primary)] border-[var(--color-primary)]"
                     : "bg-[var(--color-surface-2)] text-[var(--color-text)] border-[var(--color-border)] hover:border-[var(--color-text)]/30") +
