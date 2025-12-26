@@ -1,0 +1,343 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Baggo Theme Tokens
+  - CSS variables so later (Advanced Admin / Pro) can control the website theme safely.
+  - Default values keep a premium neutral look.
+*/
+
+@layer base {
+  :root {
+    /* Surfaces */
+    --color-bg: #ffffff;
+    --color-surface: #f6f6f6;
+    --color-surface-2: #ffffff;
+
+    /* Text */
+    --color-text: #0b0f1a;
+    --color-text-muted: #6b7280;
+
+    /* Borders */
+    --color-border: rgba(17, 24, 39, 0.12);
+
+    /* Brand */
+    --color-primary: #111827; /* slate/charcoal */
+    --color-on-primary: #ffffff;
+    --color-secondary: #334155;
+
+    /* Status */
+    --color-danger: #dc2626;
+    --color-warning: #c2410c;
+    --color-success: #16a34a;
+
+    /* Layout */
+    --banner-height: 44px;
+    --banner-offset: 0px;
+
+    /* Navbar (liquid-glass) */
+    --color-nav-bg: rgba(255, 255, 255, 0.78);
+    --color-nav-text: #0b0f1a;
+    --color-nav-text-muted: rgba(11, 15, 26, 0.70);
+    --color-nav-border: rgba(15, 23, 42, 0.10);
+
+    /* Banner (admin-ready later) */
+    --color-banner-bg: rgba(255, 255, 255, 0.92);
+    --color-banner-text: #0b0f1a;
+    --color-banner-border: rgba(15, 23, 42, 0.10);
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Hide scrollbars on horizontal collections without disabling scrolling */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Liquid-glass navbar effect */
+.baggo-nav-glass {
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  isolation: isolate;
+}
+.baggo-nav-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 120px at 18% 0%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02));
+  opacity: 0.9;
+}
+
+
+.baggo-nav-glass::after {
+  content: "";
+  position: absolute;
+  inset: -140px -220px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg,
+    rgba(255,255,255,0) 30%,
+    rgba(255,255,255,0.55) 45%,
+    rgba(255,255,255,0) 60%
+  );
+  transform: translateX(-60%) rotate(8deg);
+  opacity: 0.0;
+  animation: baggo-sheen 7s ease-in-out infinite;
+}
+.baggo-nav-glass {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+.baggo-nav-scrolled {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+/* Micro-animations (safe, lightweight) */
+@layer utilities {
+  @keyframes baggo-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+  }
+
+  .animate-baggo-pop {
+    animation: baggo-pop 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes baggo-nav-drop {
+    from { transform: translateY(-12px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .baggo-nav-enter {
+    animation: baggo-nav-drop 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  @keyframes baggo-menu-reveal {
+    from { transform: translateY(-8px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .baggo-menu-enter {
+    animation: baggo-menu-reveal 220ms ease-out;
+    will-change: transform, opacity;
+  }
+}
+/* Extra glass sheen animation */
+@keyframes baggo-sheen {
+  0% { transform: translateX(-60%) rotate(8deg); opacity: 0; }
+  10% { opacity: 0.70; }
+  35% { opacity: 0.18; }
+  50% { transform: translateX(60%) rotate(8deg); opacity: 0; }
+  100% { transform: translateX(60%) rotate(8deg); opacity: 0; }
+}
+
+@keyframes baggo-banner-drop {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.baggo-banner-enter {
+  animation: baggo-banner-drop 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+/* Form controls (range + select) */
+.baggo-select {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 10px 44px 10px 14px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  transition: box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.baggo-select:focus {
+  outline: none;
+  border-color: rgba(15, 23, 42, 0.28);
+  background: var(--color-surface-2);
+  box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.10);
+}
+
+.baggo-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.baggo-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      to right,
+      var(--color-primary) 0%,
+      var(--color-primary) var(--baggo-range-pct, 50%),
+      rgba(15, 23, 42, 0.14) var(--baggo-range-pct, 50%),
+      rgba(15, 23, 42, 0.14) 100%
+    );
+}
+
+.baggo-range:focus {
+  outline: none;
+}
+
+.baggo-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  transition: transform 120ms ease;
+}
+
+.baggo-range:active::-webkit-slider-thumb {
+  transform: scale(1.06);
+}
+
+.baggo-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  transition: transform 120ms ease;
+}
+
+.baggo-range:active::-moz-range-thumb {
+  transform: scale(1.06);
+}
+
+.baggo-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+
+
+@layer utilities {
+  @keyframes baggo-fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .baggo-fade {
+    animation: baggo-fade 260ms ease-out;
+    will-change: transform, opacity;
+  }
+  .baggo-scroll {
+    scrollbar-width: none;
+  }
+  .baggo-scroll::-webkit-scrollbar { display: none; }
+
+  /* Page transitions */
+  @keyframes baggo-page-enter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .baggo-page-enter {
+    animation: baggo-page-enter 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  /* Modal micro-animations */
+  @keyframes baggo-backdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .baggo-backdrop-enter {
+    animation: baggo-backdrop 180ms ease-out;
+  }
+
+  @keyframes baggo-modal-pop {
+    from { opacity: 0; transform: translateY(10px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .baggo-modal-enter {
+    animation: baggo-modal-pop 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  /* Simple spinner for the boot splash */
+  @keyframes baggo-spinner {
+    to { transform: rotate(360deg); }
+  }
+  .animate-baggo-spinner {
+    animation: baggo-spinner 900ms linear infinite;
+  }
+}
+
+/* Extra micro-interactions (subtle, "premium" feel) */
+@layer utilities {
+  .baggo-card {
+  /* Premium motion, no drop-shadows */
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), filter 260ms ease, opacity 260ms ease;
+  will-change: transform;
+}
+.baggo-card:hover {
+  transform: translateY(-2px);
+}
+.baggo-card:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+@keyframes baggo-reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.baggo-reveal {
+  animation: baggo-reveal 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--baggo-delay, 0ms);
+  will-change: transform, opacity;
+}
+
+  .baggo-tap {
+    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), opacity 160ms ease;
+  }
+  .baggo-tap:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baggo-card,
+  .baggo-tap,
+  .baggo-page-enter,
+  .baggo-banner-enter,
+  .baggo-reveal,
+  .baggo-fade,
+  .baggo-fade-in {
+    animation: none !important;
+    transition: none !important;
+  }
+}
