@@ -156,9 +156,10 @@ export default function ProductCard({ product }) {
       {/* Quick-add size picker (only when product has multiple sizes) */}
       <Modal
         open={sizeModalOpen}
-        title="Choose a size"
+        title="Choose options"
         onClose={() => setSizeModalOpen(false)}
         widthClass="max-w-lg"
+        variant="sheet"
         footer={
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
             <button
@@ -211,7 +212,7 @@ export default function ProductCard({ product }) {
           Select a size for <span className="font-medium text-[var(--color-text)]">{product.name}</span>.
         </p>
 
-        <div className="mt-4 grid grid-cols-3 sm:flex sm:flex-wrap gap-2">
+        <div className="mt-4 grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:gap-2">
           {(product?.sizes || []).map((s) => {
             const disabled =
               isPerImageStock(product?.stock)
@@ -227,7 +228,7 @@ export default function ProductCard({ product }) {
                 disabled={disabled}
                 onClick={() => setModalSize(s)}
                 className={
-                  "inline-flex items-center justify-center px-4 py-2 rounded-full text-sm border transition-all active:scale-[0.98] " +
+                  "inline-flex w-full items-center justify-center rounded-full text-sm border transition-all active:scale-[0.98] px-0 py-3 sm:px-4 sm:py-2 " +
                   (modalSize === s
                     ? "bg-[var(--color-primary)] text-[var(--color-on-primary)] border-[var(--color-primary)]"
                     : "bg-[var(--color-surface-2)] text-[var(--color-text)] border-[var(--color-border)] hover:border-[var(--color-text)]/30") +
